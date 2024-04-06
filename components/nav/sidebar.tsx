@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/sheet";
 
 import { Filter } from "./filter";
+import { Roadmap } from "../roadmap";
 
 export const Sidebar = () => {
   return (
@@ -22,8 +23,9 @@ export const Sidebar = () => {
         />
       </SheetTrigger>
 
-      <SheetContent className="bg-grey-100 py-10">
+      <SheetContent className="space-y-6 bg-grey-100 pt-16">
         <Filter />
+        <Roadmap />
       </SheetContent>
     </Sheet>
   );
