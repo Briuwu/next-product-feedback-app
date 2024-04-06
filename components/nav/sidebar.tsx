@@ -8,7 +8,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-import { Filter } from "./filter";
+import { Filter } from "../filter";
 import { Roadmap } from "../roadmap";
 
 export const Sidebar = () => {

@@ -1,5 +1,7 @@
 import Link from "next/link";
+
 import { Sidebar } from "./sidebar";
+import { Sort } from "../sort";
 
 export const Navbar = () => {
   return (
@@ -13,6 +15,7 @@ export const Navbar = () => {
         </div>
         <Sidebar />
       </nav>
+      <Sort />
     </header>
   );
 };

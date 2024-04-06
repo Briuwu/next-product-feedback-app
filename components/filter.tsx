@@ -1,5 +1,5 @@
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export const Filter = () => {
