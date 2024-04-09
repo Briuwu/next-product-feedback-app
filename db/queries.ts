@@ -2,13 +2,14 @@ import { cache } from "react";
 import db from "./drizzle";
 import { and, count, eq, isNull } from "drizzle-orm";
 import { comments, feedbacks } from "./schema";
+import { notFound } from "next/navigation";
 
 export const getFeedbacks = cache(async (category?: string) => {
   if (category) {
     const data = getFilteredFeedbacks(category);
 
     if (!data) {
-      throw new Error("Feedbacks not found");
+      return notFound();
     }
 
     return data;
@@ -17,7 +18,7 @@ export const getFeedbacks = cache(async (category?: string) => {
   const data = await db.query.feedbacks.findMany();
 
   if (!data) {
-    throw new Error("Feedbacks not found");
+    return notFound();
   }
 
   return data;
@@ -29,7 +30,7 @@ export const getFeedback = cache(async (feedbackId: number) => {
   });
 
   if (!data) {
-    throw new Error("Feedback not found");
+    return notFound();
   }
 
   return data;
