@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { useState } from "react";
 
 import {
   Sheet,
@@ -12,8 +13,10 @@ import { Filter } from "../filter";
 import { Roadmap } from "../roadmap";
 
 export const Sidebar = () => {
+  const [open, setOpen] = useState(false);
+  const handleClose = () => setOpen(false);
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger>
         <Image
           src={"/assets/shared/icon-hamburger.svg"}
@@ -24,7 +27,7 @@ export const Sidebar = () => {
       </SheetTrigger>
 
       <SheetContent className="space-y-6 bg-grey-100 pt-16">
-        <Filter />
+        <Filter handleClose={handleClose} />
         <Roadmap />
       </SheetContent>
     </Sheet>

@@ -2,45 +2,53 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-export const Filter = () => {
-  const params = useSearchParams();
+export const Filter = ({ handleClose }: { handleClose: () => void }) => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
   const router = useRouter();
 
   const filters = [
     {
       name: "All",
       href: "",
-      isActive: !params.get("filter"),
+      isActive: !searchParams.get("filter"),
     },
     {
       name: "UI",
       href: "ui",
-      isActive: params.get("filter") === "ui",
+      isActive: searchParams.get("filter") === "ui",
     },
     {
       name: "UX",
       href: "ux",
-      isActive: params.get("filter") === "ux",
+      isActive: searchParams.get("filter") === "ux",
     },
     {
       name: "Enhancement",
       href: "enhancement",
-      isActive: params.get("filter") === "enhancement",
+      isActive: searchParams.get("filter") === "enhancement",
     },
     {
       name: "Bug",
       href: "bug",
-      isActive: params.get("filter") === "bug",
+      isActive: searchParams.get("filter") === "bug",
     },
     {
       name: "Feature",
       href: "feature",
-      isActive: params.get("filter") === "feature",
+      isActive: searchParams.get("filter") === "feature",
     },
   ];
 
   const handleFilter = (filter: string) => {
-    router.push(filter ? `/?filter=${filter}` : "/");
+    const params = new URLSearchParams(searchParams);
+    if (filter) {
+      params.set("filter", filter);
+    } else {
+      params.delete("filter");
+    }
+    router.replace(`${pathname}?${params.toString()}`);
+    handleClose();
   };
 
   return (

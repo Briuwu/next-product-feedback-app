@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "./ui/button";
 import {
   Select,
@@ -16,7 +17,9 @@ export const Sort = () => {
           <SelectSort />
         </div>
       </div>
-      <Button>+ Add Feedback</Button>
+      <Button asChild className="rounded-xl font-bold">
+        <Link href={"/feedback/add"}>+ Add Feedback</Link>
+      </Button>
     </div>
   );
 };

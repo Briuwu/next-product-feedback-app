@@ -3,6 +3,7 @@ import { Jost } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Navbar } from "@/components/nav/navbar";
+import { Toaster } from "@/components/ui/sonner";
 
 const font = Jost({ subsets: ["latin"] });
 
@@ -19,9 +20,9 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={font.className}>
-          <Navbar />
-          <main className="">{children}</main>
+        <body className={`${font.className} bg-grey-100`}>
+          {children}
+          <Toaster richColors theme="light" />
         </body>
       </html>
     </ClerkProvider>
