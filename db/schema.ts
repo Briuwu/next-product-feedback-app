@@ -17,12 +17,15 @@ export const feedbackRelations = relations(feedbacks, ({ many }) => ({
 export const comments = pgTable("comments", {
   id: serial("id").primaryKey(),
   comment: text("comment").notNull(),
-  feedbackId: integer("feedback_id").references(() => feedbacks.id, {
-    onDelete: "cascade",
-  }),
+  feedbackId: integer("feedback_id")
+    .references(() => feedbacks.id, {
+      onDelete: "cascade",
+    })
+    .notNull(),
   userId: text("user_id").notNull(),
   score: integer("score").notNull(),
   replyingTo: integer("replying_to").default(sql`NULL`),
+  replyingToEmail: text("replying_to_email").default(sql`NULL`),
 });
 
 export const commentRelations = relations(comments, ({ one }) => ({

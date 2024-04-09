@@ -1,8 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { comments } from "@/db/schema";
-import { clerkClient } from "@clerk/nextjs";
 import Image from "next/image";
-import { Reply } from "./reply";
+import { clerkClient } from "@clerk/nextjs";
+
+import { ReplyDialog } from "./reply-dialog";
+
+import { comments } from "@/db/schema";
 import { getReplies } from "@/db/queries";
 
 type Props = {
@@ -19,7 +20,13 @@ export const Comment = async ({ comment }: Props) => {
   }
 
   return (
-    <div className="space-y-4 py-6 text-[13px]">
+    <div
+      className={
+        comment.replyingTo === null
+          ? "space-y-4 py-6 text-[13px]"
+          : "mb-4 space-y-4"
+      }
+    >
       <div className="flex items-center gap-4">
         <Image
           src={user.imageUrl}
@@ -36,19 +43,22 @@ export const Comment = async ({ comment }: Props) => {
             @{user.emailAddresses[0].emailAddress}
           </p>
         </div>
-        <Button variant={"ghost"} className="ml-auto p-0 text-blue-300">
-          Reply
-        </Button>
+        <ReplyDialog
+          commentId={comment.id}
+          feedbackId={comment.feedbackId}
+          replyingToEmail={user.emailAddresses[0].emailAddress}
+        />
       </div>
-      <p className="text-grey-600">{comment.comment}</p>
+      <p className="text-grey-600">
+        <span className="font-bold text-violet">
+          {comment.replyingToEmail}{" "}
+        </span>
+        {comment.comment}
+      </p>
       {replies.length > 0 && (
-        <div className="border-l-2 pl-6">
+        <div className={comment.replyingTo === null ? "border-l-2 pl-6" : ""}>
           {replies.map((reply) => (
-            <Reply
-              key={reply.id}
-              reply={reply}
-              replyTo={user.emailAddresses[0].emailAddress}
-            />
+            <Comment key={reply.id} comment={reply} />
           ))}
         </div>
       )}

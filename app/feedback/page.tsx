@@ -1,4 +1,6 @@
+import { redirect } from "next/navigation";
+
 const FeedbackPage = () => {
-  return <div>FeedbackPage</div>;
+  return redirect("/");
 };
 export default FeedbackPage;

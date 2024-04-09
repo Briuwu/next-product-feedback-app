@@ -6,6 +6,7 @@ import { getFeedback } from "@/db/queries";
 import { Feed } from "@/components/feed";
 import { FeedComments } from "./components/feed-comments";
 import { AddCommentForm } from "./components/add-comment-form";
+import { Suspense } from "react";
 
 const DynamicFeedbackPage = async ({
   params,
@@ -32,9 +33,15 @@ const DynamicFeedbackPage = async ({
         </Link>
       </div>
       <div className="space-y-6">
-        <Feed feed={data} />
-        <FeedComments feedbackId={feedId} />
-        <AddCommentForm feedbackId={feedId} />
+        <Suspense fallback={null}>
+          <Feed feed={data} />
+        </Suspense>
+        <Suspense fallback={null}>
+          <FeedComments feedbackId={feedId} />
+        </Suspense>
+        <Suspense fallback={null}>
+          <AddCommentForm feedbackId={feedId} />
+        </Suspense>
       </div>
     </>
   );
