@@ -34,7 +34,7 @@ const DynamicFeedbackPage = async ({
       <div className="space-y-6">
         <Feed feed={data} />
         <FeedComments feedbackId={feedId} />
-        <AddCommentForm />
+        <AddCommentForm feedbackId={feedId} />
       </div>
     </>
   );

@@ -6,6 +6,7 @@ import { auth, currentUser } from "@clerk/nextjs";
 
 import db from "@/db/drizzle";
 import { comments } from "@/db/schema";
+import { redirect } from "next/navigation";
 
 export const addComment = async (comment: string, feedbackId: number) => {
   const { userId } = auth();
