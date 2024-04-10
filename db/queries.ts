@@ -1,29 +1,42 @@
 import { cache } from "react";
 import db from "./drizzle";
-import { and, count, desc, eq, isNull } from "drizzle-orm";
+import { and, asc, count, desc, eq, isNull } from "drizzle-orm";
 import { comments, feedbacks, votes } from "./schema";
 import { notFound } from "next/navigation";
 
-export const getFeedbacks = cache(async (category?: string) => {
-  if (category) {
-    const data = getFilteredFeedbacks(category);
-
-    if (!data) {
-      return notFound();
-    }
-
-    return data;
-  }
-
+export const getFeedbacks = cache(async (category?: string, sort?: string) => {
   const data = await db.query.feedbacks.findMany({
     orderBy: [desc(feedbacks.scores)],
+    with: {
+      comments: true,
+    },
   });
 
-  if (!data) {
-    return notFound();
-  }
+  if (!data) return [];
 
-  return data;
+  const filteredFeedbacks = data.filter((feed) => {
+    if (category) {
+      return feed.category === category;
+    }
+    return true;
+  });
+
+  const sortedFeedbacks = filteredFeedbacks.sort((a, b) => {
+    switch (sort) {
+      case "most-upvote":
+        return b.scores - a.scores;
+      case "least-upvote":
+        return a.scores - b.scores;
+      case "most-comment":
+        return b.comments.length - a.comments.length;
+      case "least-comment":
+        return a.comments.length - b.comments.length;
+      default:
+        return 0;
+    }
+  });
+
+  return sortedFeedbacks;
 });
 
 export const getFeedback = cache(async (feedbackId: number) => {
@@ -62,15 +75,6 @@ export const getComments = cache(async (feedbackId: number) => {
 export const getReplies = cache(async (commentId: number) => {
   const data = await db.query.comments.findMany({
     where: eq(comments.replyingTo, commentId),
-  });
-
-  return data;
-});
-
-export const getFilteredFeedbacks = cache(async (category: string) => {
-  const data = await db.query.feedbacks.findMany({
-    where: eq(feedbacks.category, category),
-    orderBy: [desc(feedbacks.scores)],
   });
 
   return data;

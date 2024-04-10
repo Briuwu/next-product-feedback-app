@@ -1,4 +1,8 @@
+"use client";
 import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+
 import { Button } from "./ui/button";
 import {
   Select,
@@ -25,24 +29,53 @@ export const Sort = () => {
 };
 
 const SelectSort = () => {
+  const [selected, setSelected] = useState("");
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!searchParams.has("sort")) {
+      setSelected("most-upvote");
+    }
+  }, [searchParams]);
+
   const selectItems = [
-    { value: "most-upvote", label: "Most Upvote", default: true },
+    { value: "most-upvote", label: "Most Upvote" },
     { value: "least-upvote", label: "Least Upvote" },
     { value: "most-comment", label: "Most Comment" },
     { value: "least-comment", label: "Least Comment" },
   ];
+
+  const handleFilter = (sort: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (sort) {
+      if (sort === "most-upvote") {
+        params.delete("sort");
+      } else {
+        params.set("sort", sort);
+      }
+    } else {
+      params.delete("sort");
+    }
+    router.replace(`${pathname}?${params.toString()}`);
+  };
+
   return (
-    <Select>
+    <Select
+      defaultValue="most-upvote"
+      value={selected}
+      onValueChange={(e) => {
+        setSelected(e);
+        handleFilter(e);
+      }}
+    >
       <SelectTrigger className="bg-blue-500 font-bold text-white">
         <SelectValue placeholder="Select filter..." />
       </SelectTrigger>
       <SelectContent>
         {selectItems.map((item) => (
-          <SelectItem
-            defaultChecked={item.default}
-            key={item.value}
-            value={item.value}
-          >
+          <SelectItem key={item.value} value={item.value}>
             {item.label}
           </SelectItem>
         ))}

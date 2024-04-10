@@ -1,11 +1,16 @@
-import { getFeedbacks, getFilteredFeedbacks } from "@/db/queries";
+import { getFeedbacks } from "@/db/queries";
 import { EmptyFeed } from "./components/empty-feed";
 import { Feed } from "../../components/feed";
 
-const Home = async ({ searchParams }: { searchParams: { filter: string } }) => {
+const Home = async ({
+  searchParams,
+}: {
+  searchParams: { filter: string; sort: string };
+}) => {
   const category = searchParams.filter || "";
+  const sort = searchParams.sort || "most-upvote";
 
-  const feedbacks = await getFeedbacks(category);
+  let feedbacks = await getFeedbacks(category, sort);
 
   return (
     <div>
