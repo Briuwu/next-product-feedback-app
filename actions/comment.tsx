@@ -19,7 +19,6 @@ export const addComment = async (comment: string, feedbackId: number) => {
     userId,
     feedbackId,
     comment,
-    score: 0,
   });
 
   revalidatePath("/");
@@ -43,7 +42,6 @@ export const addReply = async (
     userId,
     feedbackId,
     comment,
-    score: 0,
     replyingTo: commentId,
     replyingToEmail,
   });

@@ -3,7 +3,7 @@ import { getCommentsLength } from "@/db/queries";
 import { feedbacks } from "@/db/schema";
 import Image from "next/image";
 import Link from "next/link";
-
+import { VoteButton } from "./vote-btn";
 type Props = {
   feed: typeof feedbacks.$inferSelect;
 };
@@ -24,20 +24,7 @@ export const Feed = async ({ feed }: Props) => {
         </div>
       </Link>
       <div className="flex items-center justify-between">
-        <Button
-          variant={"ghost"}
-          className="space-x-2 rounded-[10px] bg-grey-200 px-3 py-[6px] hover:bg-grey-200/80"
-        >
-          <Image
-            src={"/assets/shared/icon-arrow-up.svg"}
-            alt=""
-            width={10}
-            height={7}
-          />{" "}
-          <span className="text-[13px] font-bold text-blue-500">
-            {feed.score}
-          </span>
-        </Button>
+        <VoteButton feedbackId={feed.id} scores={feed.scores} />
         <Link
           href={`/feedback/${feed.id}`}
           className="inline-flex space-x-2 rounded-[10px] p-0"

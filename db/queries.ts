@@ -1,7 +1,7 @@
 import { cache } from "react";
 import db from "./drizzle";
-import { and, count, eq, isNull } from "drizzle-orm";
-import { comments, feedbacks } from "./schema";
+import { and, count, desc, eq, isNull } from "drizzle-orm";
+import { comments, feedbacks, votes } from "./schema";
 import { notFound } from "next/navigation";
 
 export const getFeedbacks = cache(async (category?: string) => {
@@ -15,7 +15,9 @@ export const getFeedbacks = cache(async (category?: string) => {
     return data;
   }
 
-  const data = await db.query.feedbacks.findMany();
+  const data = await db.query.feedbacks.findMany({
+    orderBy: [desc(feedbacks.scores)],
+  });
 
   if (!data) {
     return notFound();
@@ -68,6 +70,15 @@ export const getReplies = cache(async (commentId: number) => {
 export const getFilteredFeedbacks = cache(async (category: string) => {
   const data = await db.query.feedbacks.findMany({
     where: eq(feedbacks.category, category),
+    orderBy: [desc(feedbacks.scores)],
+  });
+
+  return data;
+});
+
+export const getVotes = cache(async (feedbackId: number, voter: string) => {
+  const data = await db.query.votes.findFirst({
+    where: and(eq(votes.feedbackId, feedbackId), eq(votes.userId, voter)),
   });
 
   return data;

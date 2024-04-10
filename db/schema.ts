@@ -5,9 +5,11 @@ export const feedbacks = pgTable("feedbacks", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   detail: text("detail").notNull(),
-  score: integer("score").notNull(),
   userId: text("user_id").notNull(),
   category: text("category").notNull(),
+  scores: integer("scores")
+    .default(sql`0`)
+    .notNull(),
 });
 
 export const feedbackRelations = relations(feedbacks, ({ many }) => ({
@@ -23,7 +25,6 @@ export const comments = pgTable("comments", {
     })
     .notNull(),
   userId: text("user_id").notNull(),
-  score: integer("score").notNull(),
   replyingTo: integer("replying_to").default(sql`NULL`),
   replyingToEmail: text("replying_to_email").default(sql`NULL`),
 });
@@ -31,6 +32,23 @@ export const comments = pgTable("comments", {
 export const commentRelations = relations(comments, ({ one }) => ({
   feedback: one(feedbacks, {
     fields: [comments.feedbackId],
+    references: [feedbacks.id],
+  }),
+}));
+
+export const votes = pgTable("votes", {
+  id: serial("id").primaryKey(),
+  feedbackId: integer("feedback_id")
+    .references(() => feedbacks.id, {
+      onDelete: "cascade",
+    })
+    .notNull(),
+  userId: text("user_id").notNull(),
+});
+
+export const votesRelations = relations(votes, ({ one }) => ({
+  feedback: one(feedbacks, {
+    fields: [votes.feedbackId],
     references: [feedbacks.id],
   }),
 }));
