@@ -14,8 +14,9 @@ const Home = async ({
 
   return (
     <div>
-      {feedbacks.length === 0 && <EmptyFeed />}
-      {feedbacks.length > 0 && (
+      {feedbacks.length === 0 ? (
+        <EmptyFeed />
+      ) : (
         <div className="grid grid-cols-1 gap-4">
           {feedbacks.map((feed) => (
             <Feed key={feed.id} feed={feed} />
