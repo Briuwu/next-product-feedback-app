@@ -25,7 +25,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { updateFeedback, upsertFeedback } from "@/actions/feedback";
+import {
+  deleteFeedback,
+  updateFeedback,
+  upsertFeedback,
+} from "@/actions/feedback";
 import { toast } from "sonner";
 import { feedbacks } from "@/db/schema";
 import { cn } from "@/lib/utils";
@@ -199,9 +203,12 @@ export const EditFeedbackForm = ({ feedback }: Props) => {
           </Button>
           <Button
             disabled={isPending}
-            type="submit"
+            type="button"
             className="mr-auto w-full rounded-[10px] font-bold md:w-auto md:px-6 md:py-3"
             variant={"destructive"}
+            onClick={async () => {
+              await deleteFeedback(feedback.id);
+            }}
           >
             Delete
           </Button>

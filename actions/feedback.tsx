@@ -108,3 +108,18 @@ export const updateFeedbackVote = async (feedbackId: number) => {
   revalidatePath("/");
   revalidatePath(`/feedback/${feedbackId}`);
 };
+
+export const deleteFeedback = async (feedbackId: number) => {
+  const { userId } = auth();
+  const user = currentUser();
+
+  if (!userId || !user) {
+    throw new Error("Unauthorized");
+  }
+
+  await db.delete(feedbacks).where(eq(feedbacks.id, feedbackId));
+
+  revalidatePath("/");
+  revalidatePath("/feedback");
+  redirect("/");
+};
