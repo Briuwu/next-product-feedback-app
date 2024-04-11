@@ -24,7 +24,7 @@ export const Feed = async ({ feed }: Props) => {
 
         <p className="mb-3 text-grey-600 md:text-base">{feed.detail}</p>
         <div className="mb-4">
-          <span className="rounded-[10px] bg-grey-200 px-4 py-1 font-semibold text-blue-300">
+          <span className="rounded-[10px] bg-grey-200 px-4 py-1 font-semibold capitalize text-blue-300">
             {feed.category}
           </span>
         </div>

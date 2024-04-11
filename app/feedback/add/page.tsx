@@ -5,7 +5,7 @@ import { AddFeedbackForm } from "./components/add-feedback-form";
 
 const AddFeedbackPage = () => {
   return (
-    <>
+    <div className="mx-auto max-w-[540px]">
       <div className="mb-[55px]">
         <Link
           href={".."}
@@ -35,7 +35,7 @@ const AddFeedbackPage = () => {
           className="absolute -top-7 ml-6"
         />
       </div>
-    </>
+    </div>
   );
 };
 export default AddFeedbackPage;
