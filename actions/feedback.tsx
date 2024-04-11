@@ -8,9 +8,11 @@ import db from "@/db/drizzle";
 import { and, eq } from "drizzle-orm";
 import { feedbacks, votes } from "@/db/schema";
 
-type Feedback = Omit<typeof feedbacks.$inferSelect, "id" | "userId" | "score">;
+type Feedback = typeof feedbacks.$inferSelect;
 
-export const upsertFeedback = async (feedback: Feedback) => {
+type PartialFeedback = Omit<Feedback, "id" | "userId" | "scores">;
+
+export const upsertFeedback = async (feedback: PartialFeedback) => {
   const { userId } = auth();
   const user = currentUser();
 
@@ -29,6 +31,30 @@ export const upsertFeedback = async (feedback: Feedback) => {
   revalidatePath("/");
   revalidatePath("/feedback");
   redirect("/");
+};
+
+export const updateFeedback = async (
+  feedbackId: number,
+  feedback: PartialFeedback,
+) => {
+  const { userId } = auth();
+  const user = currentUser();
+
+  if (!userId || !user) {
+    throw new Error("Unauthorized");
+  }
+
+  await db
+    .update(feedbacks)
+    .set({
+      category: feedback.category,
+      detail: feedback.detail,
+      title: feedback.title,
+    })
+    .where(eq(feedbacks.id, feedbackId));
+
+  revalidatePath("/");
+  revalidatePath(`/feedback/${feedbackId}`);
 };
 
 export const updateFeedbackVote = async (feedbackId: number) => {

@@ -17,7 +17,7 @@ const DynamicFeedbackPage = async ({
   const data = await getFeedback(feedId);
 
   return (
-    <>
+    <div className="mx-auto max-w-[720px]">
       <div className="mb-[55px]">
         <Link
           href={".."}
@@ -43,7 +43,7 @@ const DynamicFeedbackPage = async ({
           <AddCommentForm feedbackId={feedId} />
         </Suspense>
       </div>
-    </>
+    </div>
   );
 };
 export default DynamicFeedbackPage;

@@ -10,6 +10,9 @@ export const feedbacks = pgTable("feedbacks", {
   scores: integer("scores")
     .default(sql`0`)
     .notNull(),
+  status: text("status")
+    .default(sql`'suggestion'`)
+    .notNull(),
 });
 
 export const feedbackRelations = relations(feedbacks, ({ many }) => ({

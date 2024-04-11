@@ -25,8 +25,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { upsertFeedback } from "@/actions/feedback";
+import { updateFeedback, upsertFeedback } from "@/actions/feedback";
 import { toast } from "sonner";
+import { feedbacks } from "@/db/schema";
 
 const formSchema = z.object({
   title: z
@@ -44,25 +45,30 @@ const formSchema = z.object({
   category: z.string().min(3, {
     message: "Can't be empty",
   }),
+  status: z.string().min(3, {
+    message: "Can't be empty",
+  }),
 });
 
-export const AddFeedbackForm = () => {
+type Props = {
+  feedback: typeof feedbacks.$inferSelect;
+};
+
+export const EditFeedbackForm = ({ feedback }: Props) => {
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      detail: "",
-      category: "",
+      title: feedback.title,
+      detail: feedback.detail,
+      category: feedback.category,
+      status: feedback.status,
     },
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      await upsertFeedback({
-        ...data,
-        status: "suggestion",
-      });
+      await updateFeedback(feedback.id, data);
       toast.success("Feedback added successfully");
     });
   }
@@ -121,6 +127,34 @@ export const AddFeedbackForm = () => {
         />
         <FormField
           control={form.control}
+          name="status"
+          render={({ field }) => (
+            <FormItem className="space-y-0">
+              <FormLabel className="text-[13px] font-bold text-blue-500">
+                Update Status
+              </FormLabel>
+              <FormDescription className="pb-4 pt-1 text-[13px] text-grey-600">
+                Change feature state
+              </FormDescription>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="bg-grey-100">
+                    <SelectValue placeholder="Select category..." />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="suggestion">Suggestion</SelectItem>
+                  <SelectItem value="planned">Planned</SelectItem>
+                  <SelectItem value="in-progress">In-Progress</SelectItem>
+                  <SelectItem value="live">Live</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage className="pt-1 text-[13px]" />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
           name="detail"
           render={({ field }) => (
             <FormItem className="space-y-0">
@@ -153,7 +187,15 @@ export const AddFeedbackForm = () => {
             className="w-full rounded-[10px] font-bold md:w-auto md:px-6 md:py-3"
             asChild
           >
-            <Link href={".."}>Cancel</Link>
+            <Link href={`/feedback/${feedback.id}`}>Cancel</Link>
+          </Button>
+          <Button
+            disabled={isPending}
+            type="submit"
+            className="mr-auto w-full rounded-[10px] font-bold md:w-auto md:px-6 md:py-3"
+            variant={"destructive"}
+          >
+            Delete
           </Button>
         </div>
       </form>
