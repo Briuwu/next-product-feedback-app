@@ -43,10 +43,10 @@ const formSchema = z.object({
       message: "Can't be empty",
     })
     .max(500),
-  category: z.string().min(3, {
+  category: z.string().min(2, {
     message: "Can't be empty",
   }),
-  status: z.string().min(3, {
+  status: z.string().min(2, {
     message: "Can't be empty",
   }),
 });
