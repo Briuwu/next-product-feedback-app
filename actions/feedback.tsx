@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import db from "@/db/drizzle";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { feedbacks, votes } from "@/db/schema";
 
 type Feedback = Omit<typeof feedbacks.$inferSelect, "id" | "userId" | "score">;
@@ -40,7 +40,7 @@ export const updateFeedbackVote = async (feedbackId: number) => {
   }
 
   const hasVoted = await db.query.votes.findFirst({
-    where: eq(votes.feedbackId, feedbackId),
+    where: and(eq(votes.feedbackId, feedbackId), eq(votes.userId, userId)),
   });
 
   const currentScore = await db
@@ -51,9 +51,12 @@ export const updateFeedbackVote = async (feedbackId: number) => {
 
   if (hasVoted) {
     await db.delete(votes).where(eq(votes.feedbackId, feedbackId));
-    await db.update(feedbacks).set({
-      scores: currentScore[0].value - 1,
-    });
+    await db
+      .update(feedbacks)
+      .set({
+        scores: currentScore[0].value - 1,
+      })
+      .where(eq(feedbacks.id, feedbackId));
 
     revalidatePath("/");
     revalidatePath(`/feedback/${feedbackId}`);
