@@ -12,7 +12,7 @@ const RoadmapPage = async ({
 }: {
   searchParams: { map: string };
 }) => {
-  const { map } = searchParams;
+  const map = searchParams.map || "planned";
 
   const data = await getFeedbacks();
 
