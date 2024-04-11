@@ -26,6 +26,7 @@ export const upsertFeedback = async (feedback: PartialFeedback) => {
     detail: feedback.detail,
     title: feedback.title,
     scores: 0,
+    status: feedback.status,
   });
 
   revalidatePath("/");
@@ -50,11 +51,14 @@ export const updateFeedback = async (
       category: feedback.category,
       detail: feedback.detail,
       title: feedback.title,
+      status: feedback.status,
     })
     .where(eq(feedbacks.id, feedbackId));
 
   revalidatePath("/");
   revalidatePath(`/feedback/${feedbackId}`);
+  revalidatePath(`/feedback/${feedbackId}/edit`);
+  redirect(`/feedback/${feedbackId}`);
 };
 
 export const updateFeedbackVote = async (feedbackId: number) => {

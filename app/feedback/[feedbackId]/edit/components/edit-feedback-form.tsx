@@ -28,6 +28,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { updateFeedback, upsertFeedback } from "@/actions/feedback";
 import { toast } from "sonner";
 import { feedbacks } from "@/db/schema";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   title: z
@@ -69,7 +70,7 @@ export const EditFeedbackForm = ({ feedback }: Props) => {
   function onSubmit(data: z.infer<typeof formSchema>) {
     startTransition(async () => {
       await updateFeedback(feedback.id, data);
-      toast.success("Feedback added successfully");
+      toast.success("Feedback edited successfully");
     });
   }
   return (
@@ -187,7 +188,14 @@ export const EditFeedbackForm = ({ feedback }: Props) => {
             className="w-full rounded-[10px] font-bold md:w-auto md:px-6 md:py-3"
             asChild
           >
-            <Link href={`/feedback/${feedback.id}`}>Cancel</Link>
+            <Link
+              href={`/feedback/${feedback.id}`}
+              className={cn(
+                isPending ? "pointer-events-none" : "pointer-events-auto",
+              )}
+            >
+              Cancel
+            </Link>
           </Button>
           <Button
             disabled={isPending}
