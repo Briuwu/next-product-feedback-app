@@ -1,6 +1,7 @@
 import { getFeedbacks } from "@/db/queries";
 import { EmptyFeed } from "./components/empty-feed";
 import { Feed } from "../../components/feed";
+import { Sort } from "@/components/sort";
 
 const Home = async ({
   searchParams,
@@ -14,6 +15,7 @@ const Home = async ({
 
   return (
     <div>
+      <Sort className="hidden xl:mb-6 xl:flex" />
       {feedbacks.length === 0 ? (
         <EmptyFeed />
       ) : (

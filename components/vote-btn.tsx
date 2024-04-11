@@ -13,7 +13,6 @@ import { getVotes } from "@/db/queries";
 import { updateFeedbackVote } from "@/actions/feedback";
 
 import { Button } from "./ui/button";
-import { cn } from "@/lib/utils";
 import { VoteButtonForm } from "./vote-btn-form";
 
 type Props = {
@@ -28,7 +27,7 @@ export const VoteButton = async ({ feedbackId, scores }: Props) => {
   const hasUpvoted = voter?.feedbackId === feedbackId;
 
   return (
-    <>
+    <div className="row-start-2 md:col-start-1 md:row-start-1 md:mr-10">
       <ClerkLoading>
         <Loader className="h-5 w-5 animate-spin" />
       </ClerkLoading>
@@ -37,17 +36,22 @@ export const VoteButton = async ({ feedbackId, scores }: Props) => {
           <SignInButton mode="modal" afterSignInUrl="/" afterSignUpUrl="/">
             <Button
               variant={"ghost"}
-              className="space-x-2 rounded-[10px] bg-grey-200 px-3 py-[6px] hover:bg-grey-200/80"
+              className="inline-flex items-center justify-center gap-2 rounded-[10px] bg-grey-200 px-3 py-[6px] hover:bg-blue-300/50 md:flex-col md:py-[14px]"
             >
-              <Image
-                src={"/assets/shared/icon-arrow-up.svg"}
-                alt=""
-                width={10}
-                height={7}
-              />{" "}
-              <span className="text-[13px] font-bold text-blue-500">
-                {scores}
-              </span>
+              <>
+                <svg width="10" height="7" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M1 6l4-4 4 4"
+                    stroke="#4661E6"
+                    strokeWidth="2"
+                    fill="none"
+                    fillRule="evenodd"
+                  />
+                </svg>
+                <span className="text-[13px] font-bold text-blue-500">
+                  {scores}
+                </span>
+              </>
             </Button>
           </SignInButton>
         </SignedOut>
@@ -59,6 +63,6 @@ export const VoteButton = async ({ feedbackId, scores }: Props) => {
           />
         </SignedIn>
       </ClerkLoaded>
-    </>
+    </div>
   );
 };

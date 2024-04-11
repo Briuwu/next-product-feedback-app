@@ -31,7 +31,7 @@ export const VoteButtonForm = ({ hasUpvoted, scores, feedbackId }: Props) => {
       disabled={isPending}
       variant={"ghost"}
       className={cn(
-        "space-x-2 rounded-[10px] bg-grey-200 px-3 py-[6px] hover:bg-blue-300/50",
+        "inline-flex items-center justify-center gap-2 rounded-[10px] bg-grey-200 px-3 py-[6px] hover:bg-blue-300/50 md:flex-col md:py-[14px]",
         hasUpvoted || optimisticVote ? "bg-blue-300 hover:bg-blue-300/80" : "",
       )}
     >

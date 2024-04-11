@@ -11,10 +11,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
 
-export const Sort = () => {
+export const Sort = ({ className }: { className?: string }) => {
   return (
-    <div className="flex items-center bg-blue-500 px-6 py-[18px]">
+    <div
+      className={cn(
+        "flex items-center bg-blue-500 px-6 py-[18px] md:rounded-[10px]",
+        className,
+      )}
+    >
+      <div className="mr-8 hidden items-center gap-4 md:flex">
+        <Image
+          src={"/assets/suggestions/icon-suggestions.svg"}
+          alt=""
+          width={23}
+          height={24}
+        />
+        <p className="text-lg font-bold text-white">Suggestions</p>
+      </div>
       <div className="flex flex-1 items-center text-[13px]">
         <p className="space-x-1 text-white">Sort by: </p>
         <div className="w-full max-w-40">
@@ -70,7 +86,7 @@ const SelectSort = () => {
         handleFilter(e);
       }}
     >
-      <SelectTrigger className="bg-blue-500 font-bold text-white">
+      <SelectTrigger className="bg-blue-500 py-0 font-bold text-white">
         <SelectValue placeholder="Select filter..." />
       </SelectTrigger>
       <SelectContent>

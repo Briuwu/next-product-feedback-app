@@ -15,7 +15,7 @@ import { Button } from "../ui/button";
 
 export const Navbar = () => {
   return (
-    <header>
+    <header className="block md:hidden">
       <nav className="flex items-center gap-4 bg-gradient-to-tr from-sky-500 to-pink-500 px-6 py-4 text-white">
         <div className="mr-auto">
           <Link href={"/"} className="text-[15px] font-bold">
