@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { getComments, getCommentsLength } from "@/db/queries";
 import { Comment } from "./comment";
 
@@ -12,7 +13,9 @@ export const FeedComments = async ({ feedbackId }: { feedbackId: number }) => {
       </p>
       <div className="divide-y-2">
         {data.map((comment) => (
-          <Comment key={comment.id} comment={comment} />
+          <Suspense key={comment.id} fallback={null}>
+            <Comment comment={comment} />
+          </Suspense>
         ))}
       </div>
     </div>
