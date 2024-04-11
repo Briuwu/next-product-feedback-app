@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 
 import { Filter } from "../filter";
@@ -15,8 +13,10 @@ import { Loader, LogIn } from "lucide-react";
 import { Button } from "../ui/button";
 import { Roadmap } from "../roadmap";
 import { Sort } from "../sort";
+import { getFeedbackStatus } from "@/db/queries";
 
-export const NavCards = () => {
+export const NavCards = async () => {
+  const { planned, inProgress, live } = await getFeedbackStatus();
   return (
     <header className="hidden self-start md:mb-10 md:block md:space-y-10 xl:sticky xl:top-6">
       <nav className="grid grid-cols-3 gap-[10px] text-white xl:grid-cols-1">
@@ -51,7 +51,7 @@ export const NavCards = () => {
           </div>
         </div>
         <Filter className="h-full" />
-        <Roadmap />
+        <Roadmap planned={planned} inProgress={inProgress} live={live} />
       </nav>
       <Sort className="xl:hidden" />
     </header>

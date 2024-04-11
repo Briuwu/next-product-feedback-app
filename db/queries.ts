@@ -87,3 +87,27 @@ export const getVotes = cache(async (feedbackId: number, voter: string) => {
 
   return data;
 });
+
+export const getFeedbackStatus = cache(async () => {
+  const data = await getFeedbacks();
+
+  const planned = data.filter((feed) => feed.status === "planned").length;
+  const inProgress = data.filter(
+    (feed) => feed.status === "in-progress",
+  ).length;
+  const live = data.filter((feed) => feed.status === "live").length;
+
+  return {
+    planned: planned ? planned : 0,
+    inProgress: inProgress ? inProgress : 0,
+    live: live ? live : 0,
+  };
+});
+
+export const getFeedbackByStatus = cache(async (status: string) => {
+  const data = await db.query.feedbacks.findMany({
+    where: eq(feedbacks.status, status),
+  });
+
+  return data;
+});

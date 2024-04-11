@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Loader, LogIn, User } from "lucide-react";
+import { Loader, LogIn } from "lucide-react";
 import {
   ClerkLoaded,
   ClerkLoading,
@@ -12,8 +12,11 @@ import {
 import { Sidebar } from "./sidebar";
 import { Sort } from "../sort";
 import { Button } from "../ui/button";
+import { getFeedbackStatus } from "@/db/queries";
 
-export const Navbar = () => {
+export const Navbar = async () => {
+  const { planned, inProgress, live } = await getFeedbackStatus();
+
   return (
     <header className="block md:hidden">
       <nav className="flex items-center gap-4 bg-gradient-to-tr from-sky-500 to-pink-500 px-6 py-4 text-white">
@@ -38,7 +41,7 @@ export const Navbar = () => {
             <UserButton afterSignOutUrl="/" />
           </SignedIn>
         </ClerkLoaded>
-        <Sidebar />
+        <Sidebar planned={planned} inProgress={inProgress} live={live} />
       </nav>
       <Sort />
     </header>

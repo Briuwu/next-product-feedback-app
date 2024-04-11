@@ -12,7 +12,13 @@ import {
 import { Filter } from "../filter";
 import { Roadmap } from "../roadmap";
 
-export const Sidebar = () => {
+type Props = {
+  planned: number;
+  inProgress: number;
+  live: number;
+};
+
+export const Sidebar = ({ planned, inProgress, live }: Props) => {
   const [isHydrated, setIsHydrated] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -36,7 +42,7 @@ export const Sidebar = () => {
 
       <SheetContent className="space-y-6 bg-grey-100 pt-16">
         <Filter handleClose={handleClose} />
-        <Roadmap />
+        <Roadmap planned={planned} inProgress={inProgress} live={live} />
       </SheetContent>
     </Sheet>
   );
