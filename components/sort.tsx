@@ -13,6 +13,7 @@ import {
 } from "./ui/select";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { ClerkLoaded, SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
 
 export const Sort = ({ className }: { className?: string }) => {
   return (
@@ -37,9 +38,18 @@ export const Sort = ({ className }: { className?: string }) => {
           <SelectSort />
         </div>
       </div>
-      <Button asChild className="rounded-xl font-bold">
-        <Link href={"/feedback/add"}>+ Add Feedback</Link>
-      </Button>
+      <ClerkLoaded>
+        <SignedOut>
+          <SignInButton mode="modal" afterSignInUrl="/" afterSignUpUrl="/">
+            <Button className="rounded-xl font-bold">+ Add Feedback</Button>
+          </SignInButton>
+        </SignedOut>
+        <SignedIn>
+          <Button asChild className="rounded-xl font-bold">
+            <Link href={"/feedback/add"}>+ Add Feedback</Link>
+          </Button>
+        </SignedIn>
+      </ClerkLoaded>
     </div>
   );
 };
