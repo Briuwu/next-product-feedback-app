@@ -20,7 +20,7 @@ const EditFeedbackPage = async ({
     <div className="mx-auto max-w-[540px]">
       <div className="mb-[55px]">
         <Link
-          href={".."}
+          href={`/feedback/${feedback.id}`}
           className="inline-flex items-center gap-4 text-[13px] hover:underline"
         >
           <Image
