@@ -5,7 +5,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Navbar />
-      <main className="container py-6 xl:grid xl:grid-cols-[255px,1fr] xl:gap-8">
+      <main className="container max-w-[1180px] py-6 xl:grid xl:grid-cols-[255px,auto] xl:gap-8">
         <NavCards />
         {children}
       </main>
