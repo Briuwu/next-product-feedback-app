@@ -47,7 +47,7 @@ export const NavCards = async () => {
             <Link href={"/"} className="block text-[15px] font-bold">
               Frontend Mentor
             </Link>
-            <p className="text-[13px] text-opacity-75">Feedback Board</p>
+            <h1 className="text-[13px] text-opacity-75">Feedback Board</h1>
           </div>
         </div>
         <Filter className="h-full" />

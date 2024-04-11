@@ -24,7 +24,7 @@ export const Navbar = async () => {
           <Link href={"/"} className="text-[15px] font-bold">
             Frontend Mentor
           </Link>
-          <p className="text-[13px] text-opacity-75">Feedback Board</p>
+          <h1 className="text-[13px] text-opacity-75">Feedback Board</h1>
         </div>
         <ClerkLoading>
           <Loader className="h-5 w-5 animate-spin" />
