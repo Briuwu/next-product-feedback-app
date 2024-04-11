@@ -31,8 +31,8 @@ export const VoteButtonForm = ({ hasUpvoted, scores, feedbackId }: Props) => {
       disabled={isPending}
       variant={"ghost"}
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-[10px] bg-grey-200 px-3 py-[6px] hover:bg-blue-300/50 md:flex-col md:py-[14px]",
-        hasUpvoted || optimisticVote ? "bg-blue-300 hover:bg-blue-300/80" : "",
+        "inline-flex w-[65px] items-center justify-center gap-2 rounded-[10px] bg-grey-200 px-3 py-[6px] hover:bg-blue-300/50 md:w-[47px] md:flex-col md:py-[14px]",
+        hasUpvoted ? "bg-blue-300 hover:bg-blue-300/80" : "",
       )}
     >
       <>
@@ -43,13 +43,13 @@ export const VoteButtonForm = ({ hasUpvoted, scores, feedbackId }: Props) => {
             strokeWidth="2"
             fill="none"
             fillRule="evenodd"
-            className={hasUpvoted || optimisticVote ? "stroke-white" : ""}
+            className={hasUpvoted ? "stroke-white" : ""}
           />
         </svg>
         <span
           className={cn(
             "text-[13px] font-bold text-blue-500",
-            hasUpvoted || optimisticVote ? "text-white" : "",
+            hasUpvoted ? "text-white" : "",
           )}
         >
           {optimisticVote}

@@ -36,7 +36,7 @@ export const VoteButton = async ({ feedbackId, scores }: Props) => {
           <SignInButton mode="modal" afterSignInUrl="/" afterSignUpUrl="/">
             <Button
               variant={"ghost"}
-              className="inline-flex items-center justify-center gap-2 rounded-[10px] bg-grey-200 px-3 py-[6px] hover:bg-blue-300/50 md:flex-col md:py-[14px]"
+              className="inline-flex w-[65px] items-center justify-center gap-2 rounded-[10px] bg-grey-200 px-3 py-[6px] hover:bg-blue-300/50 md:w-[47px] md:flex-col md:py-[14px]"
             >
               <>
                 <svg width="10" height="7" xmlns="http://www.w3.org/2000/svg">
